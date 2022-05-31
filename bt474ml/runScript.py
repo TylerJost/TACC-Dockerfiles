@@ -5,14 +5,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import RepeatedKFold
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import mean_squared_error
+
 
 from sklearn.svm import SVR
+from sklearn.model_selection import GridSearchCV
 # %% Load data
-print('Loading data!')
 adata = sc.read_h5ad('../data/anndataObjects/BT474LineageAssigned.h5ad')
 adata.obs['sample'] = adata.obs['sample'].str.replace('\d+','')
 adata = adata[adata.obs['collapsedLineages'] != 'nan']
@@ -45,15 +42,21 @@ fcs = fcs.reset_index()
 fcs.head()
 
 adata.obs = adata.obs.merge(fcs, how='left').set_index(adata.obs.index)
-adataPre = adata[adata.obs['sample']=='PreTreat',]
+adataPre = adata[adata.obs['sample'] == 'PreTreat',]
 # %% SVM Regression
 print('Running SVM!')
 X = adataPre.X
 varRegress = 'D-FC'
 y = list(adataPre.obs[varRegress])
 
-svr_rbf = SVR(kernel="rbf", C=100, gamma=0.1, epsilon=0.1)
-scores = cross_val_score(svr_rbf, X, y, cv=5, scoring='r2')
-print(np.mean(scores))
-dfScores = pd.DataFrame(scores)
+svr = GridSearchCV(
+    SVR(kernel="rbf", gamma=0.1),
+    param_grid={"C": [1e0, 1e1, 1e2, 1e3], "gamma": np.logspace(-2, 2, 5)},
+)
+svr.fit(X, y)
+
+print(f"Best SVR with params: {svr.best_params_} and R2 score: {svr.best_score_:.3f}")
+dfScores = pd.DataFrame(svr.cv_results_)
 dfScores.to_csv('../data/scoresSVM')
+# %%
+
