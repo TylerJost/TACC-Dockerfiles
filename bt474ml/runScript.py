@@ -9,6 +9,9 @@ from sklearn.model_selection import cross_val_score
 
 from sklearn.svm import SVR
 from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import RepeatedKFold
+from sklearn.linear_model import ElasticNet
+
 # %% Load data
 adata = sc.read_h5ad('../data/anndataObjects/BT474LineageAssigned.h5ad')
 adata.obs['sample'] = adata.obs['sample'].str.replace('\d+','')
@@ -48,15 +51,18 @@ print('Running SVM!')
 X = adataPre.X
 varRegress = 'D-FC'
 y = list(adataPre.obs[varRegress])
-
-svr = GridSearchCV(
-    SVR(kernel="rbf", gamma=0.1),
-    param_grid={"C": [1e0, 1e1, 1e2, 1e3], "gamma": np.logspace(-2, 2, 5)},
-)
-svr.fit(X, y)
-
-print(f"Best SVR with params: {svr.best_params_} and R2 score: {svr.best_score_:.3f}")
-dfScores = pd.DataFrame(svr.cv_results_)
-dfScores.to_csv('../data/scoresSVM')
+# X = X[1:10,]
+# y = y[1:10]
+# svr = GridSearchCV(
+#     SVR(kernel="rbf", gamma=0.1),
+#     param_grid={"C": [1e0, 1e1, 1e2, 1e3], "gamma": np.logspace(-2, 2, 5)},
+# )
+model = SVR(kernel="rbf", C=100, gamma = 0.1, epsilon=0.1)
+# model = ElasticNet(random_state=1234)
+cv = RepeatedKFold(n_splits=5, n_repeats=3, random_state=1234)
+scores = cross_val_score(model, X, y, scoring='r2', cv=cv, n_jobs=-1)
+print('Mean R2 for SVR: %.3f (%.3f)' % (scores.mean(), scores.std()) )
+print(pd.DataFrame(model))
+pd.DataFrame(scores).to_csv('../data/SVRFCPred.csv')
 # %%
 
