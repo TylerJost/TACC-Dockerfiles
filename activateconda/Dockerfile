@@ -12,4 +12,11 @@ RUN conda env create -f environment.yml
 # Initialize conda in bash config fiiles:
 RUN conda init bash
 
+# Activate the environment, and make sure it's activated:
+# RUN echo "conda activate myenv" > ~/.bashrc
+# RUN echo "Make sure flask is installed:"
+# RUN python -c "import flask"
+
+# The code to run when container is started:
+# COPY run.py .
 # ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "myenv", "python", "run.py"]

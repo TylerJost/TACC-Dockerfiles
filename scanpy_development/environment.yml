@@ -1,4 +1,4 @@
-name: sc-tutorial_mamba
+name: dev 
 channels:
   - conda-forge
   - bioconda
