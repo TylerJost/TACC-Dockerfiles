@@ -74,7 +74,23 @@ squeue –u <username> #Check job status
 module spider <term> # Searches for term
 idev –m <Num Minutes> -p <queue name>
 ```
+## TACC Slurm Template
+```
+#!/bin/bash
+#SBATCH -J test_job                   		# Job name
+#SBATCH -o test_job.%j.out        		# Name of stdout output file (%j expands to jobId)
+#SBATCH -p normal   	      			# Queue name (you use the development queue to test jobs that take less than 2 hours)
+#SBATCH -N 1                  			# Total number of nodes requested
+#SBATCH -n 1                 			# Total number of threas tasks requested (128 per node)
+#SBATCH -t 01:30:00           			# Run time (hh:mm:ss) - 1.5 hours
+#SBATCH --mail-user=email@utexas.edu   	# Address email notifications
+#SBATCH --mail-type=all				# Email at begin and end of job
+#SBATCH -A DMS21043      				# <-- Allocation name to charge job against
 
+module load tacc-singularity
+singularity run docker://<username>/<image name>:<tag> #Run default command
+singularity exec docker://<username>/<image name>:<tag> conda run --no-capture-output -n <environment> python <script> #Run arbitrary script using the given environment
+```
 
 
 
