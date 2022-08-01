@@ -16,15 +16,15 @@ Images can currently be found at:
 The POD explicitly uses Docker. To use the images, you must start a container like so:
 
 ```
-docker run -it -v /stor/work/Brock/Tyler/BT474Project:/dev/BT474Project -p 127.0.0.1:5000:8080 --name scanpy scanpy_development
+docker run -it -v /stor/work/Brock/Tyler/BT474Project:/dev/BT474Project -p 127.0.0.1:5000:8080 --name scanpy_dev taj159/scanpy_development:0.2
 ```
 
 Breaking this down, we are running this image with the following terms:
 | Flag      | Description |
 | ----------- | ----------- |
-| -it      | Runs interactively       |
+| -it       | Runs interactively       |
 | -v   | Mounts a local volume inside the container<br />(`local directory:remote directory`)        |
-| -p| Exposes a port (`localhost:localport:remote port`) |
+| -p        | Exposes a port (`localhost:localport:remote port`) |
 | --name | The name of the container|
 
 Finally, we end with the name of the image. We can start the container after exiting using:
@@ -40,7 +40,7 @@ To begin, first download the image using singularity. In this case, we would cal
 Singularity is actually quite nice because it (currently) will expose all directories and ports. For our image, we can call:
 
 ```
-singularity exec ./scanpy_development_0.2.sif
+singularity run ./scanpy_development_0.2.sif
 ```
 From here, we can proceed as normal. If we were running this from a slurm file, we would need to give it extra commands, such as:
 
