@@ -48,4 +48,37 @@ From here, we can proceed as normal. If we were running this from a slurm file, 
 singularity exec ./scanpy_development_0.2.sif conda run --no-capture-output -n dev python <script>
 ```
 
-This would activate the conda environment `dev` on start and run our desired script. 
+This would activate the conda environment `dev` on start and run our desired script.
+
+# TACC/Docker/Singularity Cheatsheet
+## Docker/Singularity Commands
+```
+docker image ls #List image
+docker ps –a #List all containers
+docker build -t <username>/<image name>:<tag> .
+docker image push <username>/<image name>:<tag>
+docker run -it -v <folder> -p <port forward> --name <container> <image> 
+
+singularity pull docker://<username>/<image>
+singularity exec <file>.sif
+singularity shell <file>.sif
+```
+## TACC Commands
+```
+module list #Lists loaded TACC modules
+module load <module name> #Load your module
+sbatch submission.slurm #Submit your job
+sacct -j <myid> --format=Elapsed #Time to complete job
+idev –m 40 #Starts interactive session
+squeue –u <username> #Check job status
+module spider <term> # Searches for term
+idev –m <Num Minutes> -p <queue name>
+```
+
+
+
+
+
+
+
+ 
