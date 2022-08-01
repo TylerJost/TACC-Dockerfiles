@@ -95,10 +95,8 @@ singularity exec docker://<username>/<image name>:<tag> conda run --no-capture-o
 ## Singularity/Docker/Anaconda Peculiarities
 Space is a crucial portion of any docker file. The full scanpy development docker file rests at about 5 GB (for reference the maximum that you can upload is around 10GB). This is fairly hefty for Docker, but can be reduced by using [micromamba](https://github.com/mamba-org/micromamba-docker). However, this might not be ideal for you.  
 
-If the Docker image was built with micromamba, an environment will not appear to initialize, but will activate the base environment on startup. If the Docker image was built with miniconda, you may need to activate the environment
-
-
-
-
-
- 
+If you used micromamba, you are free to use `singularity run <.sif file> <commands>`. However, if you gain shell access either through `singularity shell` or `singularity run`, you won't be able to access the anaconda environment. To remedy this, input:
+```
+eval "$(micromamba shell hook --shell=bash)" && micromamba activate
+``` 
+On startup and your environment should activate. 
