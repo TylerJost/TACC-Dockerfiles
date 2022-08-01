@@ -91,7 +91,11 @@ module load tacc-singularity
 singularity run docker://<username>/<image name>:<tag> #Run default command
 singularity exec docker://<username>/<image name>:<tag> conda run --no-capture-output -n <environment> python <script> #Run arbitrary script using the given environment
 ```
+# Other Notes for Effective Use
+## Singularity/Docker/Anaconda Peculiarities
+Space is a crucial portion of any docker file. The full scanpy development docker file rests at about 5 GB (for reference the maximum that you can upload is around 10GB). This is fairly hefty for Docker, but can be reduced by using [micromamba](https://github.com/mamba-org/micromamba-docker). However, this might not be ideal for you.  
 
+If the Docker image was built with micromamba, an environment will not appear to initialize, but will activate the base environment on startup. If the Docker image was built with miniconda, you may need to activate the environment
 
 
 
