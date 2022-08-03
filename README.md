@@ -11,11 +11,13 @@ This is a post-processing development environment for single-cell sequencing thr
 # Usage Principles
 Images can currently be found at:
 - https://hub.docker.com/repository/docker/taj159/scanpy_development
+
 To download with Docker:
 ```
 docker pull taj159/scanpy_development:0.5
 ```
 - https://hub.docker.com/repository/docker/taj159/sc-post
+
 To download with Docker:
 ```
 docker pull taj159/sc-post:0.6
