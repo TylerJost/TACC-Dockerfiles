@@ -16,7 +16,7 @@ Images can currently be found at:
 The POD explicitly uses Docker. To use the images, you must start a container like so:
 
 ```
-docker run -it -v /stor/work/Brock/Tyler/BT474Project:/dev/BT474Project -p 127.0.0.1:5000:8080 --name scanpy_dev taj159/scanpy_development:0.2
+docker run -it -v /stor/work/Brock/Tyler/BT474Project:/dev/BT474Project -p 127.0.0.1:5000:8888 --name scanpy_dev taj159/scanpy_development:0.5
 ```
 
 Breaking this down, we are running this image with the following terms:
@@ -32,6 +32,11 @@ Finally, we end with the name of the image. We can start the container after exi
 ```
 docker start -i scanpy
 ```
+
+### Attaching to Containers in VS Code
+Once you have a running container, you can choose to start a Jupyter notebook if you wish. If you prefer to work in an editor such as VS Code, you must attach to a *running* container. To do so, first install the [Docker extension](https://code.visualstudio.com/docs/containers/overview). You can then start the extension, select the container, then select "Attach Visual Studio Code". 
+
+![](./media/containerAttach.png).  
 ## Starting a container through TACC
 TACC uses singularity instead of Docker, so things are a bit different. To use singularity, first call the module with `module load tacc-singularity`. 
 
