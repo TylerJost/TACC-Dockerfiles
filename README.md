@@ -37,6 +37,8 @@ docker start -i scanpy
 Once you have a running container, you can choose to start a Jupyter notebook if you wish. If you prefer to work in an editor such as VS Code, you must attach to a *running* container. To do so, first install the [Docker extension](https://code.visualstudio.com/docs/containers/overview). You can then start the extension, select the container, then select "Attach Visual Studio Code". 
 
 ![](./media/containerAttach.png).  
+
+*Note*: You will have to install extensions for VS Code inside the container that you might already have, more instructions can be found [here](containerAttach.png). 
 ## Starting a container through TACC
 TACC uses singularity instead of Docker, so things are a bit different. To use singularity, first call the module with `module load tacc-singularity`. 
 
@@ -88,9 +90,9 @@ idev –m <Num Minutes> -p <queue name>
 #SBATCH -N 1                  			# Total number of nodes requested
 #SBATCH -n 1                 			# Total number of threas tasks requested (128 per node)
 #SBATCH -t 01:30:00           			# Run time (hh:mm:ss) - 1.5 hours
-#SBATCH --mail-user=email@utexas.edu   	# Address email notifications
+#SBATCH --mail-user=email@utexas.edu   	        # Address email notifications
 #SBATCH --mail-type=all				# Email at begin and end of job
-#SBATCH -A DMS21043      				# <-- Allocation name to charge job against
+#SBATCH -A DMS21043      			# <-- Allocation name to charge job against
 
 module load tacc-singularity
 singularity run docker://<username>/<image name>:<tag> #Run default command
@@ -98,10 +100,12 @@ singularity exec docker://<username>/<image name>:<tag> conda run --no-capture-o
 ```
 # Other Notes for Effective Use
 ## Singularity/Docker/Anaconda Peculiarities
-Space is a crucial portion of any docker file. The full scanpy development docker file rests at about 5 GB (for reference the maximum that you can upload is around 10GB). This is fairly hefty for Docker, but can be reduced by using [micromamba](https://github.com/mamba-org/micromamba-docker). However, this might not be ideal for you.  
+Space is a crucial portion of any docker file. The full scanpy development docker file rests at about 5 GB (for reference the maximum that you can upload is around 10GB after compression). This is fairly hefty for Docker, but can be reduced by using [micromamba](https://github.com/mamba-org/micromamba-docker). However, this might not be ideal for you.  
 
 If you used micromamba, you are free to use `singularity run <.sif file> <commands>`. However, if you gain shell access either through `singularity shell` or `singularity run`, you won't be able to access the anaconda environment. To remedy this, input:
 ```
 eval "$(micromamba shell hook --shell=bash)" && micromamba activate
 ``` 
 On startup and your environment should activate. 
+
+If you are running an anaconda on TACC and have a miniconda-created conda environment in your Docker file, you may have to specify which conda you want to run. This tends to get messy quickly. 
