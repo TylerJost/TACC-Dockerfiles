@@ -2,6 +2,8 @@
 
 This is a repository to update and maintain dockerfiles used for single-cell sequencing analysis. 
 
+If you are curious about what Docker is, check out the always helpful Fireship video: https://www.youtube.com/watch?v=Gjnup-PuquQ
+
 ## scanpy_development
 This is a full environment for processing raw sequencing data into a log-transformed count matrix. Each portion of the `scanpy` "best-practices" paper should be possible, though some elements haven't been updated in a long time. Use of a docker environment is helpful to avoid future syntax changes. This is built on miniconda, so it is quite large. It has an environment called `dev` for processing data.
 
