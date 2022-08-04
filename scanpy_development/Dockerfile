@@ -9,5 +9,6 @@ SHELL ["/bin/bash", "--login", "-c"]
 COPY environment.yml .
 RUN conda env create -f environment.yml
 
-# Initialize conda in bash config fiiles:
 RUN conda init bash
+
+RUN conda env export --name dev > env.lock
