@@ -6,9 +6,7 @@ WORKDIR /app
 SHELL ["/bin/bash", "--login", "-c"]
 
 # Create the environment:
-COPY environment.yml .
-RUN conda env create -f environment.yml
-
+COPY conda-linux-64.lock .
+RUN conda create --name dev --file conda-linux-64.lock
 RUN conda init bash
 
-RUN conda env export --name dev > env.lock
