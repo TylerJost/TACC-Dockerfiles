@@ -8,7 +8,7 @@ If you are curious about what Docker is, check out the always helpful Fireship v
 This is a full environment for processing raw sequencing data into a log-transformed count matrix. Each portion of the `scanpy` "best-practices" paper should be possible, though some elements haven't been updated in a long time. Use of a docker environment is helpful to avoid future syntax changes. This is built on miniconda, so it is quite large. It has an environment called `dev` for processing data.
 
 ## sc-post
-This is a post-processing development environment for single-cell sequencing through `scanpy`. It has support for most scientific computing tasks, as well as several useful machine learning packages and message passing for python. Primarily, it is less beefy than the "development" dockerfile. 
+Don't use this one, it is under quarantine. 
 
 # Usage Principles
 Images can currently be found at:
